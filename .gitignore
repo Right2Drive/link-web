@@ -58,4 +58,8 @@ typings/
 .env
 
 # vscode
-.vscode/*
+.vscode/
+
+# Fusebox
+.fusebox
+dist/
