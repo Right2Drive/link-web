@@ -1,6 +1,7 @@
 const { src, context, task } = require('fuse-box/sparky')
 const { FuseBox, WebIndexPlugin, LESSPlugin, CSSResourcePlugin, QuantumPlugin, CSSPlugin } = require('fuse-box')
 const path = require('path')
+const { TypeHelper } = require('fuse-box-typechecker')
 
 task('default', async context => {
   await context.cleanDist()
@@ -55,10 +56,37 @@ context(class {
       .instructions(' > index.ts')
 
     if (!this.isProduction) {
-      bundle.watch().hmr()
+      const typeChecker = this.getTypeChecker()
+      typeChecker.createThread()
+      bundle
+        .watch()
+        .cache(false)
+        .hmr()
+        .completed(proc => {
+          this.runTypeChecker(typeChecker)
+        })
     }
 
     return bundle
+  }
+
+  getTypeChecker(override = {}) {
+    return TypeHelper({
+      tsConfig: './tsconfig.json',
+      name: 'src',
+      basePath: './',
+      tsLint: './tslint.json',
+      yellowOnLint: true,
+      shortenFilenames: true,
+      ...override,
+    })
+  }
+
+  runTypeChecker(typeChecker) {
+    console.log('running typechecker...')
+
+    typeChecker.inspectCodeWithWorker({ ...typeChecker.options, quit: false, type: 'watch' });
+    typeChecker.printResultWithWorker();
   }
 
   devServer(fuse) {
