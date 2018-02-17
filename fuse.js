@@ -1,5 +1,5 @@
 const { src, context, task } = require('fuse-box/sparky')
-const { FuseBox, WebIndexPlugin, LESSPlugin, CSSResourcePlugin, QuantumPlugin, CSSPlugin } = require('fuse-box')
+const { FuseBox, WebIndexPlugin, LESSPlugin, CSSResourcePlugin, QuantumPlugin, CSSPlugin, SassPlugin } = require('fuse-box')
 const path = require('path')
 const { TypeHelper } = require('fuse-box-typechecker')
 
@@ -33,6 +33,7 @@ context(class {
           title: 'Link Messenger',
         }),
         [
+          SassPlugin(),
           CSSResourcePlugin({ dist: 'dist/css-resources' }),
           CSSPlugin({ group: 'bundle.vendor.css'}),
         ],

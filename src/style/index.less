@@ -1,5 +1,6 @@
 @import (reference) './mixins.less';
 @import './variables.less';
+@import './material.less';
 
 html {
   #max;
@@ -17,20 +18,34 @@ html {
         top: 0;
         left: 0;
         right: 0;
-        bottom: @footer-height;
+        bottom: @footerHeight;
         display: flex;
         flex-direction: row;
 
         #users {
           flex: @usersProportion 0 auto;
           width: 0;
-          background-color: #424242;
+          background-color: @primary;
+
+          header {
+            background-color: @primaryDark;
+            height: @toolbarHeight;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+
+            i {
+              margin-left: 10px;
+              cursor: pointer;
+            }
+          }
         }
 
         #chat {
           flex: @chatProportion 0 auto;
           width: 0;
-          background-color: #303030;
+          background-color: @primaryLight;
         }
       }
 
@@ -39,7 +54,7 @@ html {
         bottom: 0;
         left: 0;
         right: 0;
-        height: @footer-height;
+        height: @footerHeight;
       }
     }
   }

@@ -11,6 +11,7 @@
     "fuse-box": "^3.1.3",
     "fuse-box-typechecker": "^2.7.1",
     "less": "^3.0.1",
+    "node-sass": "^4.7.2",
     "standard": "^10.0.3",
     "tslint": "^5.9.1",
     "tslint-config-standard": "^7.0.0",
@@ -19,7 +20,6 @@
     "uglify-js": "^3.3.11"
   },
   "dependencies": {
-    "@material/toolbar": "^0.30.0",
     "@types/node": "^9.4.6"
   }
 }
