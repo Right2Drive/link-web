@@ -1,0 +1,1 @@
+{"version":3,"sources":["/src/index.ts"],"names":[],"mappings":";;;;;;AAAA,8BAA2B;AAE3B,MAAM,CAAC,gBAAgB,CAAC,MAAM,EAAE,GAAG,EAAE;IACnC,OAAO,CAAC,GAAG,CAAC,UAAU,CAAC,CAAA;AACzB,CAAC,CAAC,CAAA","file":"","sourcesContent":["import './style/index.less'\n\nwindow.addEventListener('load', () => {\n  console.log('started!')\n})\n"]}

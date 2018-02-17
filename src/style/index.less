@@ -1,0 +1,46 @@
+@import (reference) './mixins.less';
+@import './variables.less';
+
+html {
+  #max;
+
+  body {
+    #max;
+    padding: 0;
+    margin: 0;
+
+    main {
+      #max;
+
+      sections {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: @footer-height;
+        display: flex;
+        flex-direction: row;
+
+        #users {
+          flex: @usersProportion 0 auto;
+          width: 0;
+          background-color: #424242;
+        }
+
+        #chat {
+          flex: @chatProportion 0 auto;
+          width: 0;
+          background-color: #303030;
+        }
+      }
+
+      footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: @footer-height;
+      }
+    }
+  }
+}
