@@ -2,8 +2,12 @@
 @import './variables.less';
 @import './material.less';
 
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,700');
+
 html {
   #max;
+
+  font-family: 'Rubik', sans-serif;
 
   body {
     #max;
@@ -38,6 +42,20 @@ html {
             i {
               margin-left: 10px;
               cursor: pointer;
+            }
+
+            #user-search {
+              margin-left: 20px;
+              flex: 1 1 auto;
+              width: 80%;
+              border-radius: 3px;
+              padding-left: 15px;
+              margin-right: 20px;
+              border: none;
+              height: @searchHeight;
+              background: @primaryLight;
+              outline: none;
+              color: rgba(255, 255, 255, 0.7);
             }
           }
         }
