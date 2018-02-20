@@ -2,7 +2,7 @@
 @import './variables.less';
 @import './material.less';
 
-@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,700');
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,700');
 
 html {
   height: 100vh;
@@ -37,8 +37,10 @@ html {
           background-color: @primary;
           position: relative;
           z-index: 5;
+          display: flex;
+          flex-direction: column;
 
-          header {
+          > header {
             height: @toolbarHeight;
             display: flex;
             flex-direction: row;
@@ -66,6 +68,93 @@ html {
             }
           }
 
+          > .users {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+
+            > .user {
+              position: relative;
+              width: 100%;
+              height: @userHeight;
+              display: flex;
+              flex-direction: row;
+              overflow: hidden;
+              transition: background-color 0.3s ease;
+              padding: @userPadding 0;
+              cursor: pointer;
+
+              * {
+                cursor: pointer;
+              }
+
+              &:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+              }
+
+              > .left {
+                width: @userHeight;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-left: 5px;
+                flex: 0 0 auto;
+
+                > .icon {
+                  height: @userHeight - (2 * @userPadding);
+                  width: @userHeight - (2 * @userPadding);
+                  border-radius: 50%;
+                  background-color: @primaryDark;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+
+                  > .letters {
+                    color: rgba(255, 255, 255, 0.8);
+                    font-size: 24px;
+                    font-weight: 500;
+                  }
+                }
+              }
+
+              > .right {
+                flex: 1 0 auto;
+                width: 0;
+                padding-left: 10px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+
+                > .top {
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: space-between;
+                  padding-right: 10px;
+
+                  > .name {
+                    font-weight: 500;
+                    color: rgba(255, 255, 255, 0.8);
+                  }
+
+                  > .time {
+                    color: rgba(255, 255, 255, 0.3);
+                  }
+                }
+
+                > .bottom {
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  color: rgba(255, 255, 255, 0.6);
+                  padding-right: 10px;
+
+                  > .msg-preview {
+                  }
+                }
+              }
+            }
+          }
+
           #drawer {
             position: absolute;
             width: 100%;
@@ -79,9 +168,9 @@ html {
             min-width: 80px;
             max-width: 80px;
 
-            header {
+            > header {
 
-              i {
+              > i {
                 margin: 0 auto;
               }
 
