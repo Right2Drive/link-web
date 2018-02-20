@@ -5,6 +5,7 @@ const { TypeHelper } = require('fuse-box-typechecker')
 
 task('default', async context => {
   await context.cleanDist()
+  context.moveFavicon()
   const fuse = context.getConfig()
   context.createBundle(fuse)
   context.devServer(fuse)
@@ -13,6 +14,7 @@ task('default', async context => {
 
 task('dist', async context => {
   await context.cleanDist()
+  context.moveFavicon()
   context.isProduction = true
   const fuse = context.getConfig()
   context.createBundle(fuse)
@@ -92,6 +94,12 @@ context(class {
 
   devServer(fuse) {
     fuse.dev()
+  }
+
+  moveFavicon() {
+    src(path.resolve('src', 'assets', 'favicon.ico'))
+      .dest('dist/')
+      .exec()
   }
 
   async cleanDist () {

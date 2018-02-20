@@ -5,7 +5,11 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik:300,400,700');
 
 html {
-  #max;
+  height: 100vh;
+  width: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 
   font-family: 'Rubik', sans-serif;
 
@@ -26,13 +30,13 @@ html {
         display: flex;
         flex-direction: row;
 
-        #users {
+        #side-bar {
           flex: @usersProportion 0 auto;
           width: 0;
           background-color: @primary;
+          position: relative;
 
           header {
-            background-color: @primaryDark;
             height: @toolbarHeight;
             display: flex;
             flex-direction: row;
@@ -45,12 +49,13 @@ html {
             }
 
             #user-search {
+              font-size: 18px;
               margin-left: 20px;
               flex: 1 1 auto;
               width: 80%;
               border-radius: 3px;
               padding-left: 15px;
-              margin-right: 20px;
+              margin-right: 15px;
               border: none;
               height: @searchHeight;
               background: @primaryLight;
@@ -58,12 +63,37 @@ html {
               color: rgba(255, 255, 255, 0.7);
             }
           }
+
+          #drawer {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            bottom: 0;
+            background: @primaryDark;
+            left: -100%;
+          }
         }
 
         #chat {
           flex: @chatProportion 0 auto;
           width: 0;
           background-color: @primaryLight;
+
+          header {
+            height: @toolbarHeight;
+            background: @primary;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            h1 {
+              margin-left: 20px;
+              font-size: 18px;
+              font-weight: 700;
+              color: @secondaryLightFont;
+            }
+          }
         }
       }
 
