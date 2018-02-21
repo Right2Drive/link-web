@@ -3,19 +3,31 @@
 @toolbarHeight: 60px;
 @searchHeight: @toolbarHeight - 20px;
 
+/* Z-Index */
+@overlayZ: 200;
+@sidebarZ: 100;
+@drawerZ: 300;
+
 /* Users */
-@usersProportion: 23;
+@usersProportion: 0.23;
 @userHeight: 70px;
 @userPadding: 3px;
+@minSidebar: 400px;
+@minSidebarProportion: 0.9;
+@minSidebarPercent: 100% * @minSidebarProportion;
 
 /* Chat */
-@chatProportion: 100 - @usersProportion;
+@chatProportion: 1 - @usersProportion;
 @sendMsgBtnMargin: 9px;
 
 /* Colors */
 @primaryDark: #212121;
 @primary: #303030;
 @primaryLight: #424242;
+
+/* Media breakpoints */
+@sidebarMinBreakpoint: @minSidebar / @minSidebarProportion;
+@sidebarMaxBreakpoint: @minSidebar / @usersProportion;
 
 @primaryLightFont: rgba(255, 255, 255, 0.9);
 @secondaryLightFont: rgba(255, 255, 255, 0.7);

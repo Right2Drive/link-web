@@ -1,5 +1,5 @@
 const { src, context, task } = require('fuse-box/sparky')
-const { FuseBox, WebIndexPlugin, LESSPlugin, CSSResourcePlugin, QuantumPlugin, CSSPlugin, SassPlugin } = require('fuse-box')
+const { FuseBox, WebIndexPlugin, LESSPlugin, CSSResourcePlugin, QuantumPlugin, CSSPlugin } = require('fuse-box')
 const path = require('path')
 
 task('default', async context => {
@@ -31,24 +31,23 @@ context(class {
       plugins: [
         WebIndexPlugin({
           template: 'src/index.html',
-          title: 'Link Messenger'
+          title: 'Link Messenger',
+          appendBundles: true
         }),
         [
-          SassPlugin(),
-          CSSResourcePlugin({ dist: 'dist/css-resources' }),
-          CSSPlugin({ group: 'bundle.vendor.css' })
-        ],
-        [
-          'style/**.less',
+          '**/**.less',
           LESSPlugin({ paths: path.resolve(__dirname, 'node_modules') }),
-          CSSPlugin({ group: 'bundle.less.css' })
+          CSSResourcePlugin({ dist: 'dist/css-resources' }),
+          CSSPlugin()
         ],
         this.isProduction && QuantumPlugin({
           bakeApiIntoBundle: 'app',
           uglify: true,
-          css: { clean: true },
+          css: true,
           extendServerImport: true,
-          treeshake: true
+          manifest: true,
+          treeshake: true,
+          target: 'browser'
         })
       ]
     })

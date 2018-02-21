@@ -22,8 +22,9 @@ function extractState (state, modules = []) {
 }
 
 const Component = {
-  initComponent (...stateModules) {
+  initComponent (props, ...stateModules) {
     this.dispatch = store.dispatch
+    this.props = props ? makeReadonly(props) : {}
     this.prevState = extractState(store.getState(), stateModules)
     this.willRender && this.willRender(this.prevState)
     this.willRender && this.onStateChange(this.prevState)

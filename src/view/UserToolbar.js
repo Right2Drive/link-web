@@ -10,8 +10,8 @@ const UserToolbar = Object.assign(Object.create(Component), {
   userToolbarClass: 'user-toolbar',
   menuButtonId: 'menu-button',
 
-  init () {
-    this.initComponent()
+  initUserToolbar (props) {
+    this.initComponent(props)
 
     this.listen()
 

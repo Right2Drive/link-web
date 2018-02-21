@@ -12,8 +12,8 @@ const Drawer = Object.assign(Object.create(Component), {
 
   open: false,
 
-  init () {
-    this.initComponent('interface')
+  initDrawer (props) {
+    this.initComponent(props, 'interface')
 
     // Bindings
     this.getDrawer = R.bind(this.getDrawer, this)
@@ -27,8 +27,8 @@ const Drawer = Object.assign(Object.create(Component), {
   setVisibility (visible) {
     replaceClassName(
       this.getDrawer,
-      visible ? 'hide' : 'show',
-      visible ? 'show' : 'hide'
+      visible ? this.closedClass : this.openClass,
+      visible ? this.openClass : this.closedClass
     )
   },
 

@@ -1,4 +1,6 @@
 @import (reference) './mixins.less';
+@import './chat.less';
+@import './sidebar.less';
 @import './variables.less';
 @import './material.less';
 @import './rules.less';
@@ -6,8 +8,7 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,700');
 
 html {
-  height: 100vh;
-  width: 100vh;
+  #max-abs;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -22,6 +23,45 @@ html {
     main {
       #max;
 
+      > .main-overlay {
+        #max-abs;
+        transition: opacity 1s ease;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: @overlayZ;
+
+        &.hide-slow {
+          pointer-events: none;
+        }
+      }
+
+      #drawer {
+        @drawerWidth: 100% * @usersProportion;
+        position: absolute;
+        width: @drawerWidth;
+        background: @primaryDark;
+        left: @drawerWidth * -1;
+        top: 0;
+        bottom: 0;
+        transition: transform 0.6s ease;
+        z-index: @drawerZ;
+        min-width: @minSidebar;
+
+        &.open {
+          transform: translate3d(100%, 0, 0);
+        }
+
+        @media screen and (max-width: @sidebarMinBreakpoint) {
+          width: @minSidebarPercent;
+          left: -@minSidebarPercent;
+          min-width: @minSidebarPercent;
+        }
+
+        @media screen and (min-width: @sidebarMinBreakpoint) and (max-width: @sidebarMaxBreakpoint) {
+          width: @minSidebar;
+          left: -@minSidebar;
+        }
+      }
+
       sections {
         position: absolute;
         top: 0;
@@ -30,245 +70,6 @@ html {
         bottom: @footerHeight;
         display: flex;
         flex-direction: row;
-
-        #side-bar {
-          flex: @usersProportion 0 auto;
-          min-width: 400px;
-          width: 0;
-          background-color: @primary;
-          position: relative;
-          z-index: 5;
-          display: flex;
-          flex-direction: column;
-
-          > header {
-            height: @toolbarHeight;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: flex-start;
-
-            i {
-              margin-left: 10px;
-              cursor: pointer;
-            }
-
-            #user-search {
-              font-size: 18px;
-              margin-left: 20px;
-              flex: 1 1 auto;
-              width: 80%;
-              border-radius: 3px;
-              padding-left: 15px;
-              margin-right: 15px;
-              border: none;
-              height: @searchHeight;
-              background: @primaryLight;
-              outline: none;
-              color: rgba(255, 255, 255, 0.7);
-            }
-          }
-
-          > .users {
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: column;
-
-            > .user {
-              position: relative;
-              width: 100%;
-              height: @userHeight;
-              display: flex;
-              flex-direction: row;
-              overflow: hidden;
-              transition: background-color 0.3s ease;
-              padding: @userPadding 0;
-              cursor: pointer;
-
-              &.active {
-                background-color: rgba(255, 255, 255, 0.05);
-              }
-
-              * {
-                cursor: pointer;
-              }
-
-              &:hover {
-                background-color: rgba(255, 255, 255, 0.1);
-              }
-
-              > .left {
-                width: @userHeight;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-left: 5px;
-                flex: 0 0 auto;
-
-                > .icon {
-                  height: @userHeight - (2 * @userPadding);
-                  width: @userHeight - (2 * @userPadding);
-                  border-radius: 50%;
-                  background-color: @primaryDark;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-
-                  > .letters {
-                    color: rgba(255, 255, 255, 0.8);
-                    font-size: 24px;
-                    font-weight: 500;
-                  }
-                }
-              }
-
-              > .right {
-                flex: 1 0 auto;
-                width: 0;
-                padding-left: 10px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-evenly;
-
-                > .top {
-                  display: flex;
-                  flex-direction: row;
-                  justify-content: space-between;
-                  padding-right: 10px;
-
-                  > .name {
-                    font-weight: 500;
-                    color: rgba(255, 255, 255, 0.8);
-                  }
-
-                  > .time {
-                    color: rgba(255, 255, 255, 0.3);
-                  }
-                }
-
-                > .bottom {
-                  text-overflow: ellipsis;
-                  white-space: nowrap;
-                  overflow: hidden;
-                  color: rgba(255, 255, 255, 0.6);
-                  padding-right: 10px;
-
-                  > .msg-preview {
-                  }
-                }
-              }
-            }
-          }
-
-          #drawer {
-            position: absolute;
-            width: 100%;
-            top: 0;
-            bottom: 0;
-            background: @primaryDark;
-            left: -100%;
-            transition: transform 0.8s ease;
-
-            &.show {
-              transform: translate3d(100%, 0, 0);
-            }
-          }
-
-          @media only screen and (max-width: 700px) {
-            min-width: 80px;
-            max-width: 80px;
-
-            > header {
-
-              > i {
-                margin: 0 auto;
-              }
-
-              #user-search {
-                display: none;
-              }
-            }
-          }
-        }
-
-        #chat {
-          flex: @chatProportion 0 auto;
-          width: 0;
-          background-color: @primaryDark;
-          display: flex;
-          flex-direction: column;
-          position: relative;
-
-          > .bar {
-            border-left: 2px solid rgba(255, 255, 255, 0.03);
-          }
-
-          > header {
-            #shadow-light;
-            height: @toolbarHeight;
-            background: @primary;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-
-            > h1 {
-              margin-left: 20px;
-              font-size: 18px;
-              font-weight: 700;
-              color: @secondaryLightFont;
-            }
-          }
-
-          > .chat-body {
-            width: 100%;
-            flex: 1 1 auto;
-            height: auto;
-          }
-
-          > footer {
-            #shadow-light;
-            bottom: 0;
-            height: @toolbarHeight;
-            width: 100%;
-            background: @primary;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-
-            > input {
-              flex: 1 1 auto;
-              padding-left: 15px;
-              outline: none;
-              background: @primary;
-              border: 0;
-              font-size: 18px;
-              color: rgba(255, 255, 255, 0.7);
-            }
-
-            .send-msg-btn {
-              margin: @sendMsgBtnMargin;
-              height: @toolbarHeight - (@sendMsgBtnMargin  * 2);
-              width: @toolbarHeight - (@sendMsgBtnMargin  * 2);
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              cursor: pointer;
-
-              > i {
-                transition: color 0.3s ease;
-                color: rgba(255, 255, 255, 0.4);
-              }
-
-              &:hover {
-                > i {
-                  color: rgba(255, 255, 255, 0.8);
-                }
-              }
-            }
-          }
-        }
       }
 
       footer {
