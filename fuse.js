@@ -32,7 +32,8 @@ context(class {
         WebIndexPlugin({
           template: 'src/index.html',
           title: 'Link Messenger',
-          appendBundles: true
+          appendBundles: true,
+          path: '.'
         }),
         [
           '**/**.less',
@@ -43,7 +44,7 @@ context(class {
         this.isProduction && QuantumPlugin({
           bakeApiIntoBundle: 'app',
           uglify: true,
-          css: true,
+          css: { clean: true },
           extendServerImport: true,
           manifest: true,
           treeshake: true,
