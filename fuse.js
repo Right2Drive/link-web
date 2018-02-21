@@ -1,7 +1,6 @@
 const { src, context, task } = require('fuse-box/sparky')
 const { FuseBox, WebIndexPlugin, LESSPlugin, CSSResourcePlugin, QuantumPlugin, CSSPlugin, SassPlugin } = require('fuse-box')
 const path = require('path')
-const { TypeHelper } = require('fuse-box-typechecker')
 
 task('default', async context => {
   await context.cleanDist()
@@ -22,81 +21,58 @@ task('dist', async context => {
 })
 
 context(class {
-
   getConfig () {
     return FuseBox.init({
       homeDir: 'src',
       target: 'browser@es6',
       output: 'dist/$name.js',
+      useTypescriptCompiler: true,
       sourceMaps: { project: true, vendor: true },
       plugins: [
         WebIndexPlugin({
           template: 'src/index.html',
-          title: 'Link Messenger',
+          title: 'Link Messenger'
         }),
         [
           SassPlugin(),
           CSSResourcePlugin({ dist: 'dist/css-resources' }),
-          CSSPlugin({ group: 'bundle.vendor.css'}),
+          CSSPlugin({ group: 'bundle.vendor.css' })
         ],
         [
           'style/**.less',
-          LESSPlugin({ paths: path.resolve(__dirname, 'node_modules')}),
-          CSSPlugin({ group: 'bundle.less.css' }),
+          LESSPlugin({ paths: path.resolve(__dirname, 'node_modules') }),
+          CSSPlugin({ group: 'bundle.less.css' })
         ],
         this.isProduction && QuantumPlugin({
           bakeApiIntoBundle: 'app',
           uglify: true,
-          css : { clean : true },
+          css: { clean: true },
           extendServerImport: true,
-        }),
-      ],
+          treeshake: true
+        })
+      ]
     })
   }
 
-  createBundle(fuse) {
+  createBundle (fuse) {
     const bundle = fuse.bundle('app')
-      .instructions(' > index.ts')
+      .instructions(' > index.js')
 
     if (!this.isProduction) {
-      const typeChecker = this.getTypeChecker()
-      typeChecker.createThread()
       bundle
         .watch()
         .cache(false)
         .hmr()
-        .completed(proc => {
-          this.runTypeChecker(typeChecker)
-        })
     }
 
     return bundle
   }
 
-  getTypeChecker(override = {}) {
-    return TypeHelper({
-      tsConfig: './tsconfig.json',
-      name: 'src',
-      basePath: './',
-      tsLint: './tslint.json',
-      yellowOnLint: true,
-      shortenFilenames: true,
-      ...override,
-    })
-  }
-
-  runTypeChecker(typeChecker) {
-    console.log('running typechecker...')
-
-    typeChecker.inspectCodeWithWorker({ ...typeChecker.options, quit: false, type: 'watch' });
-    typeChecker.printResultWithWorker();
-  }
-
-  devServer(fuse) {
+  devServer (fuse) {
     fuse.dev()
   }
 
-  moveFavicon() {
+  moveFavicon () {
     src(path.resolve('src', 'assets', 'favicon.ico'))
       .dest('dist/')
       .exec()
@@ -105,5 +81,4 @@ context(class {
   async cleanDist () {
     await src('dist/').clean('dist/').exec()
   }
-
 })

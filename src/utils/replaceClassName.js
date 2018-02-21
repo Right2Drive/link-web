@@ -3,7 +3,9 @@ import * as R from 'ramda'
 import { updateByValue } from './updateByValue'
 import { getClassList, setClassList } from './classList'
 
-export function updateClassName (getEl: () => HTMLElement, oldVal: string, newVal: string) {
+export default function replaceClassName (getEl, oldVal, newVal) {
+  if (oldVal === newVal) return
+
   const el = getEl()
 
   return R.converge(
@@ -12,8 +14,8 @@ export function updateClassName (getEl: () => HTMLElement, oldVal: string, newVa
       R.identity,
       R.pipe(
         getClassList,
-        updateByValue(oldVal, newVal),
-      ),
-    ],
+        updateByValue(oldVal, newVal)
+      )
+    ]
   )(el)
 }
