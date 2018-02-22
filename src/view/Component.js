@@ -89,6 +89,19 @@ const Component = {
       this.didUpdate && asyncify(this.didUpdate)
     }
   },
+
+  /**
+   *
+   * @param {string} template
+   *
+   * @returns {HTMLElement}
+   */
+  createElement (template) {
+    const el = document.createElement('template')
+    el.innerHTML = template.trim()
+
+    return el.content.firstChild
+  }
 }
 
 export default () => Object.create(Component)

@@ -9,8 +9,8 @@ const Sidebar = Object.assign(Component(), {
 
   initSidebar (props) {
     this.initComponent(props)
-    this.toolbar = Object.create(UserToolbar).initUserToolbar({})
-    this.users = Object.create(Users).initUsers({
+    this.toolbar = UserToolbar.initUserToolbar({})
+    this.users = Users.initUsers({
       sidebarId: this.id
     })
   }
