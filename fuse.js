@@ -1,5 +1,5 @@
 const { src, context, task } = require('fuse-box/sparky')
-const { FuseBox, WebIndexPlugin, LESSPlugin, CSSResourcePlugin, QuantumPlugin, CSSPlugin } = require('fuse-box')
+const { FuseBox, WebIndexPlugin, LESSPlugin, CSSResourcePlugin, QuantumPlugin, CSSPlugin, EnvPlugin } = require('fuse-box')
 const path = require('path')
 
 task('default', async context => {
@@ -29,6 +29,11 @@ context(class {
       useTypescriptCompiler: true,
       sourceMaps: { project: true, vendor: true },
       plugins: [
+        EnvPlugin({
+          NODE_ENV: this.isProduction ? 'production' : 'development',
+          CORE_URL: 'localhost',
+          CORE_PORT: 3030
+        }),
         WebIndexPlugin({
           template: 'src/index.html',
           title: 'Link Messenger',

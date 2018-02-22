@@ -1,5 +1,3 @@
-import { Observable } from 'rxjs'
-import 'rxjs/add/observable/fromEvent'
 import * as R from 'ramda'
 
 import Component from './Component'
@@ -21,8 +19,7 @@ const Overlay = Object.assign(Object.create(Component), {
   },
 
   listen () {
-    Observable.fromEvent(this.getOverlay(), 'click')
-      .subscribe(R.bind(this.onOverlayClick, this))
+    this.getOverlay().addEventListener('click', R.bind(this.onOverlayClick, this))
   },
 
   onOverlayClick () {
