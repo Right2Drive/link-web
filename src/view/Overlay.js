@@ -4,7 +4,7 @@ import Component from './Component'
 import replaceClassName from '../utils/replaceClassName'
 import { interfaceActions } from '../store/modules/interface'
 
-const Overlay = Object.assign(Object.create(Component), {
+const Overlay = Object.assign(Component(), {
   showClass: 'show-slow',
   hideClass: 'hide-slow',
 
@@ -34,10 +34,8 @@ const Overlay = Object.assign(Object.create(Component), {
     )
   },
 
-  onStateChange (nextState) {
-    if (this.different(nextState, 'interface', 'drawerVisible')) {
-      this.setVisibility(nextState.interface.drawerVisible)
-    }
+  render (nextState) {
+    this.setVisibility(this.state.interface.drawerVisible)
   }
 })
 

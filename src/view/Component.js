@@ -2,6 +2,7 @@ import * as R from 'ramda'
 
 import store from '../store'
 import makeReadonly from '../utils/makeReadonly'
+import asyncify from '../utils/asyncify'
 
 /**
  * TODO:
@@ -25,12 +26,14 @@ function shouldUpdate (prevState, nextState, modules) {
  * @param {string[]} modules
  */
 function listenToStore (modules) {
-  const { prevState } = this
+  const { state: prevState } = this
   const nextState = store.getState()
 
   if (shouldUpdate(prevState, nextState, modules)) {
     this.onStateChange && this.onStateChange(nextState)
-    this.prevState = extractState(nextState, modules)
+    this.state = extractState(nextState, modules)
+    this.render && asyncify(this.render, this)
+    this.didUpdate && asyncify(this.didUpdate, this)
   }
 }
 
@@ -58,9 +61,13 @@ const Component = {
   initComponent (props, ...stateModules) {
     this.dispatch = store.dispatch
     this.props = props ? makeReadonly(props) : {}
-    this.prevState = extractState(store.getState(), stateModules)
-    this.willRender && this.willRender(this.prevState)
-    this.willRender && this.onStateChange(this.prevState)
+    this.state = extractState(store.getState(), stateModules)
+
+    // Lifecycle methods
+    this.willMount && asyncify(this.willMount, this, this.state)
+    this.render && asyncify(this.render, this)
+    this.didMount && asyncify(this.didMount, this)
+
     store.subscribe(R.bind(R.partial(listenToStore, [stateModules]), this))
   },
 
@@ -69,23 +76,19 @@ const Component = {
    * @param {object} props
    */
   updateProps (props) {
-    this.props = R.when(
-      !R.equals(this.props),
-      R.pipe(R.merge(this.props), makeReadonly, R.tap(this.onPropsChange))
-    )(props)
-  },
+    if (R.not(R.equals(this.props, props))) {
+      const nextProps = R.pipe(
+        R.merge(this.props),
+        makeReadonly
+      )(props)
 
-  /**
-   * TODO:
-   * @param {object} nextState
-   * @param {string} mod
-   * @param {string} prop
-   *
-   * @returns {boolean}
-   */
-  different (nextState, mod, prop) {
-    return R.not(R.equals(this.prevState[mod][prop], nextState[mod][prop]))
-  }
+      // Lifecycle
+      this.onPropsUpdate && asyncify(this.onPropsUpdate, this, nextProps)
+      this.props = nextProps
+      this.render && asyncify(this.render)
+      this.didUpdate && asyncify(this.didUpdate)
+    }
+  },
 }
 
-export default Component
+export default () => Object.create(Component)

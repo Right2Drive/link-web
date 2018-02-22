@@ -1,9 +1,9 @@
 import Drawer from './Drawer'
-import UserToolbar from './UserToolbar'
 import Overlay from './Overlay'
+import Sidebar from './Sidebar'
 
 export default function init () {
-  Drawer.initDrawer()
-  UserToolbar.initUserToolbar()
-  Overlay.initOverlay()
+  Drawer.initDrawer({})
+  Overlay.initOverlay({})
+  Sidebar.initSidebar({})
 }

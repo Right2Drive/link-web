@@ -4,7 +4,7 @@ import { getElementById } from '../utils/getElementById'
 import replaceClassName from '../utils/replaceClassName'
 import Component from './Component'
 
-const Drawer = Object.assign(Object.create(Component), {
+const Drawer = Object.assign(Component(), {
 
   drawerId: 'drawer',
   openClass: 'open',
@@ -36,10 +36,8 @@ const Drawer = Object.assign(Object.create(Component), {
     return getElementById(this.drawerId)
   },
 
-  onStateChange (nextState) {
-    if (this.different(nextState, 'interface', 'drawerVisible')) {
-      this.setVisibility(nextState.interface.drawerVisible)
-    }
+  render () {
+    this.setVisibility(this.state.interface.drawerVisible)
   }
 })
 

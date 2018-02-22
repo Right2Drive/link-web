@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import Component from './Component'
 import { interfaceActions } from '../store/modules/interface'
 
-const UserToolbar = Object.assign(Object.create(Component), {
+const UserToolbar = Object.assign(Component(), {
   sideBarId: 'side-bar',
   userToolbarClass: 'user-toolbar',
   menuButtonId: 'menu-button',
