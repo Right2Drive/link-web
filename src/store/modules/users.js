@@ -10,10 +10,19 @@ const initialState = {
   rows: [
     {
       username: 'Right2Drive',
-      name: 'Brad Pfannmuller',
+      name: 'Right2Drive',
       color: '#000000',
       lastModified: new Date().toUTCString(),
-      createdAt: new Date().toUTCString()
+      createdAt: new Date().toUTCString(),
+      userId: 'f8adf9s7gd8g7f9sdg'
+    },
+    {
+      username: 'Bea Esguerra',
+      name: 'Bea Esguerra',
+      color: '#ffffff',
+      lastModified: new Date().toUTCString(),
+      createdAt: new Date().toUTCString(),
+      userId: '98a7dsf87asd98f7sd'
     }
   ]
 }

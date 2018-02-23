@@ -18,7 +18,7 @@ function getSubName (name) {
 
 function User ({ key, timestamp, name, msg }) {
   return (
-    `<div class="user" key="${key}">
+    `<div class="user" data-key="${key}">
       <div class="left">
         <div class="icon">
           <span class="letters">${getSubName(name)}</span>

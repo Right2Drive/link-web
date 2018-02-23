@@ -5,16 +5,16 @@
   group: boolean,
   lastModified: Date,
   createdAt: Date,
-  _id: string,
+  messageId: string,
 */
 const initialState = {
   rows: [
     {
       from: 'f8adf9s7gd8g7f9sdg',
-      to: '98a7dsf87asd98f7sd',
       group: false,
       lastModified: new Date().toUTCString(),
-      createdAt: new Date().toUTCString()
+      createdAt: new Date().toUTCString(),
+      _id: '78a7f8a7s98f7sd'
     }
   ]
 }
