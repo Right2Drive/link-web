@@ -14,7 +14,17 @@ const initialState = {
       to: 'a8sdf8ads7f87adf',
       group: false,
       outgoing: true,
-      message: 'hello space',
+      message: 'This is my first message!',
+      lastModified: new Date().toUTCString(),
+      createdAt: new Date('9:12 am Feb 14, 2017').toUTCString(),
+      messageId: '78a7f8a7s98f7sd'
+    },
+    {
+      from: 'a8sdf8ads7f87adf',
+      to: 'f8adf9s7gd8g7f9sdg',
+      group: false,
+      outgoing: true,
+      message: 'This is my third message!',
       lastModified: new Date().toUTCString(),
       createdAt: new Date().toUTCString(),
       messageId: '78a7f8a7s98f7sd'
@@ -24,8 +34,18 @@ const initialState = {
       to: 'f8adf9s7gd8g7f9sdg',
       group: false,
       outgoing: false,
-      message: 'hello world',
-      lastModified: new Date().toUTCString(),
+      message: 'This is my second message!',
+      lastModified: new Date('9:12 am January 14, 2018').toUTCString(),
+      createdAt: new Date().toUTCString(),
+      messageId: '78a7f8a7s98f7sd'
+    },
+    {
+      from: '7dgf89h7gdf98',
+      to: 'f8adf9s7gd8g7f9sdg',
+      group: false,
+      outgoing: false,
+      message: 'Hi James how\'s it going?',
+      lastModified: new Date('9:12 am January 14, 2017').toUTCString(),
       createdAt: new Date().toUTCString(),
       messageId: '78a7f8a7s98f7sd'
     }

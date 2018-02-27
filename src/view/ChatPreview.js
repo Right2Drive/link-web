@@ -1,5 +1,7 @@
 import * as R from 'ramda'
 
+import { relativeStamp } from '../utils/time'
+
 /**
  *
  * @param {string} name
@@ -16,7 +18,7 @@ function getSubName (name) {
   )(name)
 }
 
-function User ({ key, timestamp, name, msg }) {
+function ChatPreview ({ key, date, name, msg }) {
   return (
     `<div class="user" data-key="${key}">
       <div class="left">
@@ -27,7 +29,7 @@ function User ({ key, timestamp, name, msg }) {
       <div class="right">
         <div class="top">
           <span class="name">${name}</span>
-          <span class="time">${timestamp}</span>
+          <span class="time">${relativeStamp(date)}</span>
         </div>
         <div class="bottom">
           <span class="msg-preview">${msg}</span>
@@ -37,4 +39,4 @@ function User ({ key, timestamp, name, msg }) {
   )
 }
 
-export default User
+export default ChatPreview

@@ -23,6 +23,14 @@ const initialState = {
       lastModified: new Date().toUTCString(),
       createdAt: new Date().toUTCString(),
       userId: 'a8sdf8ads7f87adf'
+    },
+    {
+      username: 'James Inglis',
+      name: 'James Inglis',
+      color: '#424242',
+      lastModified: new Date().toUTCString(),
+      createdAt: new Date().toUTCString(),
+      userId: '7dgf89h7gdf98'
     }
   ]
 }

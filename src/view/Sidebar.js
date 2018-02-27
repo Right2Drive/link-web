@@ -1,5 +1,5 @@
 import Component from './Component'
-import Users from './Users'
+import ChatPreviewList from './ChatPreviewList'
 import UserToolbar from './UserToolbar'
 
 const Sidebar = Object.assign(Component(), {
@@ -10,7 +10,7 @@ const Sidebar = Object.assign(Component(), {
   initSidebar (props) {
     this.initComponent(props)
     this.toolbar = UserToolbar.initUserToolbar({})
-    this.users = Users.initUsers({
+    this.users = ChatPreviewList.initChatPreviewList({
       sidebarId: this.id
     })
   }

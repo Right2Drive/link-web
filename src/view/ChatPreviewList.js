@@ -1,7 +1,7 @@
 import * as R from 'ramda'
 
 import Component from './Component'
-import User from './User'
+import ChatPreview from './ChatPreview'
 import { indexUsersWithRecentMsg } from '../utils/users'
 
 function getNewUsers (oldUsers) {
@@ -13,7 +13,7 @@ function getNewUsers (oldUsers) {
   )
 }
 
-const Users = Object.assign(Component(), {
+const ChatPreviewList = Object.assign(Component(), {
   //
   usersQuery: null,
   userClass: 'user',
@@ -21,7 +21,7 @@ const Users = Object.assign(Component(), {
   messages: null,
   activeUser: null,
 
-  initUsers (props) {
+  initChatPreviewList (props) {
     this.initComponent(props, 'users', 'messages', 'account')
     this.usersQuery = `#${props.sidebarId}>.users`
     this.users = []
@@ -51,9 +51,9 @@ const Users = Object.assign(Component(), {
 
     usersNode.innerHTML = R.pipe(
       R.map(
-        ({ lastModified, name, message, userId }) => User({
+        ({ lastModified, name, message, userId }) => ChatPreview({
           name,
-          timestamp: lastModified,
+          date: lastModified,
           msg: message,
           key: userId
         })
@@ -69,4 +69,4 @@ const Users = Object.assign(Component(), {
   }
 })
 
-export default Users
+export default ChatPreviewList
