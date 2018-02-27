@@ -22,7 +22,7 @@ const initialState = {
       color: '#ffffff',
       lastModified: new Date().toUTCString(),
       createdAt: new Date().toUTCString(),
-      userId: '98a7dsf87asd98f7sd'
+      userId: 'a8sdf8ads7f87adf'
     }
   ]
 }

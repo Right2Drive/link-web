@@ -3,11 +3,7 @@
   userId: string,
 */
 const initialState = {
-  rows: [
-    {
-      userId: 'f8adf9s7gd8g7f9sdg'
-    }
-  ]
+  userId: 'f8adf9s7gd8g7f9sdg'
 }
 
 // Action types

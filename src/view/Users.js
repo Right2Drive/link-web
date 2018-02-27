@@ -2,9 +2,7 @@ import * as R from 'ramda'
 
 import Component from './Component'
 import User from './User'
-import renameKeys from '../utils/renameKeys'
-import { getUserMsgs } from '../utils/messages'
-import getMostRecentByProp from '../utils/getMostRecent'
+import { indexUsersWithRecentMsg } from '../utils/users'
 
 function getNewUsers (oldUsers) {
   return R.filter(
@@ -15,39 +13,16 @@ function getNewUsers (oldUsers) {
   )
 }
 
-const mergeUserWithRecentMsg = R.curry((user, messages) => {
-  R.pipe(
-    R.converge(
-      R.merge,
-      [
-        R.pipe(
-          R.pick(['userId', 'name']),
-          renameKeys({ userId: 'key' }),
-        ),
-        R.pipe(
-          R.prop('userId'),
-          getUserMsgs(R.__, messages),
-          getMostRecentByProp('lastModified'),
-          R.pick(['message', 'lastModified']),
-          renameKeys({ lastModified: 'timestamp' })
-        )
-      ]
-    ),
-    R.map(User),
-    R.map(R.trim),
-    R.reduce(R.concat, '')
-  )(user)
-})
-
 const Users = Object.assign(Component(), {
   //
   usersQuery: null,
   userClass: 'user',
   users: null,
   messages: null,
+  activeUser: null,
 
   initUsers (props) {
-    this.initComponent(props, 'users', 'messages')
+    this.initComponent(props, 'users', 'messages', 'account')
     this.usersQuery = `#${props.sidebarId}>.users`
     this.users = []
     this.messages = []
@@ -57,17 +32,40 @@ const Users = Object.assign(Component(), {
 
   render () {
     // Extract users and messages
-    const { users: { rows: users }, messages: { rows: messages } } = this.state
+    const {
+      users: {
+        rows: users
+      },
+      messages: {
+        rows: messages
+      },
+      account: {
+        userId: activeUser
+      }
+    } = this.state
+
+    const userData = indexUsersWithRecentMsg(users, messages, activeUser)
 
     /** @type {HTMLElement} */
     const usersNode = document.querySelector(this.usersQuery)
 
-
-
-    usersNode.innerHTML = R.map(mergeUserWithRecentMsg(R.__, messages))(users)
+    usersNode.innerHTML = R.pipe(
+      R.map(
+        ({ lastModified, name, message, userId }) => User({
+          name,
+          timestamp: lastModified,
+          msg: message,
+          key: userId
+        })
+      ),
+      R.values,
+      R.map(R.trim),
+      R.join('\n')
+    )(userData)
 
     this.users = users
     this.messages = messages
+    this.activeUser = activeUser
   }
 })
 

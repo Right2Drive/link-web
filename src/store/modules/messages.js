@@ -11,10 +11,23 @@ const initialState = {
   rows: [
     {
       from: 'f8adf9s7gd8g7f9sdg',
+      to: 'a8sdf8ads7f87adf',
       group: false,
+      outgoing: true,
+      message: 'hello space',
       lastModified: new Date().toUTCString(),
       createdAt: new Date().toUTCString(),
-      _id: '78a7f8a7s98f7sd'
+      messageId: '78a7f8a7s98f7sd'
+    },
+    {
+      from: 'a8sdf8ads7f87adf',
+      to: 'f8adf9s7gd8g7f9sdg',
+      group: false,
+      outgoing: false,
+      message: 'hello world',
+      lastModified: new Date().toUTCString(),
+      createdAt: new Date().toUTCString(),
+      messageId: '78a7f8a7s98f7sd'
     }
   ]
 }

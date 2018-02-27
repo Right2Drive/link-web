@@ -1,5 +1,7 @@
 import * as R from 'ramda'
 
+import getMostRecentByProp from './getMostRecentByProp'
+
 export const isOutgoingMsg = R.propSatisfies(R.equals(true), 'outgoing')
 
 /**
@@ -26,3 +28,29 @@ export const getUserMsgs = R.curry((userId, msgs) => {
     ])
   ]))(msgs)
 })
+
+export const groupMsgsByUser = R.curry((userId, messages) => {
+  return R.pipe(
+    R.filter(R.propEq('group', false)),
+    R.groupBy(R.ifElse(
+      R.propEq('from', userId),
+      R.prop('to')
+    )(R.ifElse(
+      R.propEq('to', userId),
+      R.prop('from')
+    )(msg => {
+      throw new Error(`Invalid message: ${msg.messageId}`)
+    })))
+  )(messages)
+})
+
+export const groupMsgsByGroup = R.curry((userId, messages) => {
+  return R.pipe(
+    R.filter(R.propEq('group', true)),
+    R.prop('to')
+  )(messages)
+})
+
+export const filterMostRecentMsg = R.map(
+  getMostRecentByProp('lastModified')
+)
