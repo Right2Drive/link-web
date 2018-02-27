@@ -1,12 +1,10 @@
-import { Observable } from 'rxjs'
-import 'rxjs/add/observable/fromEvent'
 import * as R from 'ramda'
 
 import Component from './Component'
 import replaceClassName from '../utils/replaceClassName'
 import { interfaceActions } from '../store/modules/interface'
 
-const Overlay = Object.assign(Object.create(Component), {
+const Overlay = Object.assign(Component(), {
   showClass: 'show-slow',
   hideClass: 'hide-slow',
 
@@ -21,8 +19,7 @@ const Overlay = Object.assign(Object.create(Component), {
   },
 
   listen () {
-    Observable.fromEvent(this.getOverlay(), 'click')
-      .subscribe(R.bind(this.onOverlayClick, this))
+    this.getOverlay().addEventListener('click', R.bind(this.onOverlayClick, this))
   },
 
   onOverlayClick () {
@@ -37,10 +34,8 @@ const Overlay = Object.assign(Object.create(Component), {
     )
   },
 
-  onStateChange (nextState) {
-    if (this.different(nextState, 'interface', 'drawerVisible')) {
-      this.setVisibility(nextState.interface.drawerVisible)
-    }
+  render (nextState) {
+    this.setVisibility(this.state.interface.drawerVisible)
   }
 })
 

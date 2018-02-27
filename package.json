@@ -18,9 +18,9 @@
     "uglify-js": "^3.3.11"
   },
   "dependencies": {
+    "moment": "^2.20.1",
     "ramda": "^0.25.0",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0",
-    "rxjs": "^5.5.6"
+    "redux-thunk": "^2.2.0"
   }
 }
