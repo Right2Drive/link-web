@@ -36,11 +36,62 @@
     width: 100%;
     flex: 1 1 auto;
     height: auto;
+
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+
+    > .msg-container {
+      position: relative;
+      background-color: #606060;
+      max-width: 30%;
+      padding: 10px 10px;
+      border-radius: 8px;
+      margin: 0 20px 10px 20px;
+
+      &.tail {
+        @tailSize: 13px;
+
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0px;
+          border-width: @tailSize @tailSize 0;
+          border-style: solid;
+          border-color: #606060 transparent;
+          transform: rotate(-180deg);
+        }
+
+        &.outgoing::after {
+          right: -@tailSize;
+        }
+
+        &.incoming::after {
+          left: -@tailSize;
+        }
+      }
+
+      &.outgoing {
+        align-self: flex-end;
+      }
+
+      &.incoming {
+        align-self: flex-start;
+      }
+
+      > .msg {
+        margin-right: 10px;
+      }
+
+      > .timestamp {
+        padding-top: 10px;
+        float: right;
+      }
+    }
   }
 
   > footer {
     #shadow-light;
-    bottom: 0;
     height: @toolbarHeight;
     width: 100%;
     background: @primary;
