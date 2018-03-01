@@ -79,6 +79,36 @@ html {
         right: 0;
         height: @footerHeight;
       }
+
+      .user-icon {
+        height: @userHeight - (2 * @userPadding);
+        width: @userHeight - (2 * @userPadding);
+        border-radius: 50%;
+        background-color: @primaryDark;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &.large {
+          height: 50px;
+          width: 50px;
+        }
+
+        &.small {
+          height: 50px;
+          width: 50px;
+
+          > .letters {
+            font-size: 22px;
+          }
+        }
+
+        > .letters {
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 24px;
+          font-weight: 500;
+        }
+      }
     }
   }
 }

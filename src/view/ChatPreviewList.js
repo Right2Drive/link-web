@@ -14,7 +14,6 @@ function getNewUsers (oldUsers) {
 }
 
 const ChatPreviewList = Object.assign(Component(), {
-  //
   usersQuery: null,
   userClass: 'user',
   users: null,

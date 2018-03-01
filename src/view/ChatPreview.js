@@ -1,30 +1,11 @@
-import * as R from 'ramda'
-
+import Icon from './Icon'
 import { relativeStamp } from '../utils/time'
-
-/**
- *
- * @param {string} name
- */
-function getSubName (name) {
-  return R.pipe(
-    R.split(' '),
-    R.map(R.pipe(
-      R.head,
-      R.toUpper
-    )),
-    R.take(2),
-    R.join('')
-  )(name)
-}
 
 function ChatPreview ({ key, date, name, msg }) {
   return (
     `<div class="user" data-key="${key}">
       <div class="left">
-        <div class="icon">
-          <span class="letters">${getSubName(name)}</span>
-        </div>
+        ${Icon({ name })}
       </div>
       <div class="right">
         <div class="top">
