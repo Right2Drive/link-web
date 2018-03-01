@@ -42,12 +42,14 @@
     justify-content: flex-start;
 
     > .msg-container {
+      @defaultColor: #616161;
       position: relative;
-      background-color: #606060;
+      background-color: @defaultColor;
       max-width: 30%;
       padding: 10px 10px;
       border-radius: 8px;
       margin: 0 20px 10px 20px;
+      color: white;
 
       &.tail {
         @tailSize: 13px;
@@ -58,7 +60,7 @@
           bottom: 0px;
           border-width: @tailSize @tailSize 0;
           border-style: solid;
-          border-color: #606060 transparent;
+          border-color: @defaultColor transparent;
           transform: rotate(-180deg);
         }
 
@@ -86,6 +88,7 @@
       > .timestamp {
         padding-top: 10px;
         float: right;
+        opacity: 0.7;
       }
     }
   }
