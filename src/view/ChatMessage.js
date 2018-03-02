@@ -1,20 +1,22 @@
-import classNames from 'classnames'
+import * as classNames from 'classnames'
 
 import { relativeStamp } from '../utils/time'
 import getAccessibleText from '../utils/getAccessibleText'
 
-function ChatMessage ({ msg, date, backgroundColor, name, tail = false }) {
+function ChatMessage ({ message, date, backgroundColor, name, outgoing, tail = false }) {
   const accessibleTxtColor = getAccessibleText(backgroundColor)
-  const accessibleTxtRBG = `rgb(${accessibleTxtColor.r}${accessibleTxtColor.g}${accessibleTxtColor.b})`
-  const backgroundRGB = `rgb(${backgroundColor.r}${backgroundColor.g}${backgroundColor.b})`
+  const accessibleTxtRBG = `rgb(${accessibleTxtColor.r},${accessibleTxtColor.g},${accessibleTxtColor.b})`
+  const backgroundRGB = `rgb(${backgroundColor.r},${backgroundColor.g},${backgroundColor.b})`
 
   return (
-    `<div style={ background-color: ${backgroundRGB}; color: ${accessibleTxtRBG} } class="${classNames(
-      'msg-container outgoing',
-      { 'tail': tail }
+    `<div style=background-color:${backgroundRGB};color:${accessibleTxtRBG} class="${classNames(
+      'msg-container',
+      { tail: tail },
+      { outgoing: outgoing },
+      { incoming: !outgoing }
     )}">
-      <h1 class="name">${name}</h1>
-      <span class="msg">${msg}</span>
+      ${outgoing ? '' : `<h1 class="name">${name}</h1>`}
+      <span class="msg">${message}</span>
       <span class="timestamp">${relativeStamp(date)}</span>
     </div>`
   )

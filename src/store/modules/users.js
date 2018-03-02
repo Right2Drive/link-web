@@ -11,7 +11,7 @@ const initialState = {
     {
       username: 'Right2Drive',
       name: 'Right2Drive',
-      color: '#000000',
+      color: { r: 255, g: 255, b: 255 },
       lastModified: new Date().toUTCString(),
       createdAt: new Date().toUTCString(),
       userId: 'f8adf9s7gd8g7f9sdg'
@@ -19,7 +19,7 @@ const initialState = {
     {
       username: 'Bea Esguerra',
       name: 'Bea Esguerra',
-      color: '#ffffff',
+      color: { r: 0, g: 0, b: 0 },
       lastModified: new Date().toUTCString(),
       createdAt: new Date().toUTCString(),
       userId: 'a8sdf8ads7f87adf'

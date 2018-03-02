@@ -53,24 +53,6 @@
 
       &.tail {
         @tailSize: 13px;
-
-        &::after {
-          content: "";
-          position: absolute;
-          bottom: 0px;
-          border-width: @tailSize @tailSize 0;
-          border-style: solid;
-          border-color: @defaultColor transparent;
-          transform: rotate(-180deg);
-        }
-
-        &.outgoing::after {
-          right: -@tailSize;
-        }
-
-        &.incoming::after {
-          left: -@tailSize;
-        }
       }
 
       &.outgoing {
