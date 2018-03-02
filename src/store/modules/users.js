@@ -45,6 +45,23 @@ export const usersActions = {
 
 }
 
+// Thunks
+export const usersThunks = {
+  changeColor: ({ r, g, b }) => async (dispatch, getState, { api }) => {
+    const { userId } = getState().account
+
+    const rowUpdate = {
+      color: `rbg(${r}, ${g}, ${b})`
+    }
+
+    api.users.patch(userId, rowUpdate)
+  },
+
+  createNewUser: () => async (dispatch, getState, { api }) => {
+
+  }
+}
+
 // Reducer
 export function usersReducer (state = initialState, action) {
   switch (action.type) {

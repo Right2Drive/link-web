@@ -6,6 +6,7 @@ import { usersReducer } from './modules/users'
 import { messagesReducer } from './modules/messages'
 import { accountReducer } from './modules/account'
 import { chatReducer } from './modules/chat'
+import api from '../feathers/api'
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose
 
@@ -19,7 +20,7 @@ export default createStore(
   }),
   composeEnhancers(
     applyMiddleware(
-      thunk.withExtraArgument({ })
+      thunk.withExtraArgument({ api })
     )
   )
 )

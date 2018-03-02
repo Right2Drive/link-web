@@ -72,6 +72,31 @@ export const messagesActions = {
 
 }
 
+// Thunks
+export const messagesThunks = {
+  sendMessage: message => async (dispatch, getState, { api }) => {
+    const {
+      account: {
+        userId
+      },
+      chat: {
+        isGroup,
+        id
+      }
+    } = getState()
+
+    const row = {
+      message,
+      from: userId,
+      to: id,
+      group: isGroup,
+      outgoing: true
+    }
+
+    api.messages.create(row)
+  }
+}
+
 // Reducer
 export function messagesReducer (state = initialState, action) {
   switch (action.type) {
