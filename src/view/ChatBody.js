@@ -58,14 +58,17 @@ const ChatBody = Object.assign(Component(), {
         filterForGroup(id),
         filterForConversation(id, accountUserId)
       ),
-      R.indexBy(R.prop('from')),
       R.map(R.pipe(
         R.pick(['lastModified', 'from', 'to', 'message', 'messageId']),
         renameKeys({
           lastModified: 'date'
         }),
-        msg => ({ ...msg, outgoing: R.equals(msg.from, accountUserId) })
-      ))
+        msg => ({ ...msg, outgoing: R.equals(msg.from, accountUserId) }),
+      )),
+      R.groupBy(R.prop('from')),
+      R.map(
+        messages => ({ messages })
+      )
     )(messages)
 
     const indexedUsers = R.pipe(
@@ -81,7 +84,12 @@ const ChatBody = Object.assign(Component(), {
 
     const messagesData = R.pipe(
       R.values,
-      R.filter(R.prop('message')),
+      R.filter(R.prop('messages')),
+      R.chain(
+        mergedData => R.map(
+          messageData => ({ ...R.omit(['messages'], mergedData), ...messageData })
+        )(mergedData.messages)
+      ),
       R.sortBy(R.prop('date')),
       sortedData => sortedData.map((v, i, self) => ({ ...v, tail: !self[i + 1] || self[i + 1].from !== v.from })),
       R.map(R.pick(['message', 'date', 'backgroundColor', 'name', 'outgoing', 'tail']))
