@@ -5,6 +5,7 @@ import { interfaceReducer } from './modules/interface'
 import { usersReducer } from './modules/users'
 import { messagesReducer } from './modules/messages'
 import { accountReducer } from './modules/account'
+import { chatReducer } from './modules/chat'
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose
 
@@ -13,7 +14,8 @@ export default createStore(
     interface: interfaceReducer,
     users: usersReducer,
     messages: messagesReducer,
-    account: accountReducer
+    account: accountReducer,
+    chat: chatReducer
   }),
   composeEnhancers(
     applyMiddleware(

@@ -54,3 +54,22 @@ export const groupMsgsByGroup = R.curry((userId, messages) => {
 export const filterMostRecentMsg = R.map(
   getMostRecentByProp('lastModified')
 )
+
+const isFromFirstUserToSecond = (firstUserId, secondUserId) => R.allPass([
+  R.propEq('from', firstUserId),
+  R.propEq('to', secondUserId)
+])
+
+export const filterForConversation = R.curry((incomingUserId, outgoingUserId, messages) => R.filter(
+  R.anyPass([
+    isFromFirstUserToSecond(incomingUserId, outgoingUserId),
+    isFromFirstUserToSecond(outgoingUserId, incomingUserId)
+  ])
+)(messages))
+
+export const filterForGroup = R.curry((groupId, messages) => R.filter(
+  R.allPass([
+    R.propEq('group', true),
+    R.propEq('to', groupId)
+  ])
+)(messages))

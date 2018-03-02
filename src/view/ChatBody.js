@@ -1,10 +1,11 @@
 import * as R from 'ramda'
 
 import Component from './Component'
+import { filterForConversation, filterForGroup } from '../utils/messages'
 
 function findUser (userId, users) {
   return R.pipe(
-    R.filter(R.propEq('userId', userId)),
+    R.find(R.propEq('userId', userId)),
     R.ifElse(
       R.identity,
       R.identity,
@@ -17,7 +18,7 @@ const ChatBody = R.merge(Component(), {
   bodyQuery: null,
 
   initChatBody (props) {
-    this.initComponent(props, 'active', 'messages', 'account', 'users')
+    this.initComponent(props, 'chat', 'messages', 'account', 'users')
     this.bodyQuery = `${props.chatId}>.chat-body`
   },
 
@@ -27,35 +28,31 @@ const ChatBody = R.merge(Component(), {
         rows: messages
       },
       account: {
-        userId: outgoingUserId
+        userId: currentUserId
       },
-      active: {
-        chatUser: incomingUserId
+      chat: {
+        isGroup,
+        id
       },
       users: {
         rows: users
       }
     } = this.state
 
-    const outgoingUser = findUser(outgoingUserId, users)
-    const incomingUser = findUser(incomingUserId, users)
+
 
     const messagesData = R.pipe(
       // Filter the messages for this chat
-      R.filter(R.allPass([
-        R.propEq('from', incomingUser.userId),
-        R.propEq('to', outgoingUser.userId)
-      ]))
-      // TODO: Sort
-
-      // TODO: Pick necessary keys
-
-      // TODO: Add name
-
-      // TODO: Decide if it should have a tail
-
-      // TODO: Map to ChatMessages
+      R.ifElse(
+        R.always(R.equals(isGroup, true)),
+        filterForGroup(id),
+        filterForConversation(id, currentUserId)
+      )
     )(messages)
+
+    // TODO: Join any where from != currUser to the user itself to get name
+    // TODO: Sort by timestamp
+    // TODO: Pick only the keys that are necessary
   }
 })
 
