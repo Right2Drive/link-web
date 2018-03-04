@@ -15,7 +15,7 @@ function ChatMessage ({ message, date, backgroundColor, name, outgoing, tail = f
       { outgoing: outgoing },
       { incoming: !outgoing }
     )}">
-      ${outgoing ? '' : `<h1 class="name">${name}</h1>`}
+      <h1 class="name">${name}</h1>
       <span class="msg">${message}</span>
       <span class="timestamp">${relativeStamp(date)}</span>
     </div>`
