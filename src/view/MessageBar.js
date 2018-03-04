@@ -1,6 +1,8 @@
 import * as R from 'ramda'
 
 import Component from './Component'
+import { usersThunks } from '../store/modules/users'
+import { messagesThunks } from '../store/modules/messages'
 
 const MessageBar = Object.assign(Component(), {
   messageInputQuery: null,
@@ -19,9 +21,10 @@ const MessageBar = Object.assign(Component(), {
     this.inputKeyDown = R.bind(this.inputKeyDown, this)
     this.sendBtnClick = R.bind(this.sendBtnClick, this)
     this.send = R.bind(this.send, this)
+    this.evokeCommand = R.bind(this.evokeCommand, this)
   },
 
-  inputKeyDown ({ key, shiftKey }) {
+  async inputKeyDown ({ key, shiftKey }) {
     if (key === 'Enter') {
       if (shiftKey) {
         // TODO: Allow multi-line messages
@@ -31,30 +34,48 @@ const MessageBar = Object.assign(Component(), {
     }
   },
 
-  sendBtnClick () {
+  async sendBtnClick () {
     this.submit()
   },
 
-  submit () {
+  async submit () {
     const val = this.input.value
     R.ifElse(
       R.pipe(
         R.head,
         R.equals('/')
       ),
-      this.evokeCommand,
-      this.send
+      await this.evokeCommand,
+      await this.send
     )(val)
 
     this.input.value = ''
   },
 
-  evokeCommand (cmd) {
-    console.log(`command: ${cmd}`)
+  async evokeCommand (input) {
+    const [cmd, payload] = R.converge(
+      R.pipe(
+        // Split cmd and payload
+        R.splitAt,
+        // Remove the /
+        R.adjust(R.tail, 0)
+      ),
+      [
+        // Index to split at
+        R.indexOf(' '),
+        R.identity
+      ]
+    )(input)
+
+    switch (cmd) {
+      case 'nick': {
+        await this.dispatch(usersThunks.changeName(payload))
+      }
+    }
   },
 
-  send (val) {
-    console.log(`send: ${val}`)
+  async send (val) {
+    await this.dispatch(messagesThunks.sendMessage(val))
   },
 
   render () {

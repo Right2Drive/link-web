@@ -1,9 +1,9 @@
 import Icon from './Icon'
 import { relativeStamp } from '../utils/time'
 
-function ChatPreview ({ key, date, name, msg }) {
+function ChatPreview ({ date, name, msg, userId }) {
   return (
-    `<div class="user" data-key="${key}">
+    `<div class="user" data-key="${userId}">
       <div class="left">
         ${Icon({ name })}
       </div>

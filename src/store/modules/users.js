@@ -26,15 +26,25 @@ export const usersThunks = {
   changeColor: ({ r, g, b }) => async (dispatch, getState, { api }) => {
     const { userId } = getState().account
 
-    const rowUpdate = {
+    const rowPatch = {
       color: `rbg(${r}, ${g}, ${b})`
     }
 
-    api.users.patch(userId, rowUpdate)
+    await api.users.patch(userId, rowPatch)
   },
 
   createNewUser: () => async (dispatch, getState, { api }) => {
 
+  },
+
+  changeName: name => async (dispatch, getState, { api }) => {
+    const { userId } = getState().account
+
+    const rowPatch = {
+      name
+    }
+
+    await api.users.patch(userId, rowPatch)
   }
 }
 

@@ -3,6 +3,7 @@ import * as R from 'ramda'
 import Component from './Component'
 import ChatPreview from './ChatPreview'
 import { indexUsersWithRecentMsg } from '../utils/users'
+import { chatActions } from '../store/modules/chat'
 
 function getNewUsers (oldUsers) {
   return R.filter(
@@ -26,7 +27,14 @@ const ChatPreviewList = Object.assign(Component(), {
     this.users = []
     this.messages = []
 
+    this.onChatPreviewClick = R.bind(this.onChatPreviewClick, this)
+
     return this
+  },
+
+  onChatPreviewClick (e) {
+    const userId = e.currentTarget.attributes['data-key'].nodeValue
+    this.dispatch(chatActions.setActiveUser(userId))
   },
 
   render () {
@@ -54,13 +62,17 @@ const ChatPreviewList = Object.assign(Component(), {
           name,
           date: lastModified,
           msg: message,
-          key: userId
+          userId,
         })
       ),
       R.values,
       R.map(R.trim),
       R.join('\n')
     )(userData)
+
+    R.map(
+      node => node.addEventListener('click', this.onChatPreviewClick)
+    )(usersNode.childNodes)
 
     this.users = users
     this.messages = messages

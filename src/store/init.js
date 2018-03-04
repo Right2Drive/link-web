@@ -36,8 +36,12 @@ const initThunk = () => async (dispatch, getState, { api }) => {
     }
   } = await init(api)
 
+  const processedMessages = R.map(R.pipe(
+    msg => ({ ...msg, outgoing: msg.from === accountUserId })
+  ))(messages)
+
   // Create
-  thunkDispatchIfNotEmpty(messagesActions.addMessages, messages)
+  thunkDispatchIfNotEmpty(messagesActions.addMessages, processedMessages)
   thunkDispatchIfNotEmpty(usersActions.addUsers, users)
 }
 

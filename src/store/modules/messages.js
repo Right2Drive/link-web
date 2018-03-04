@@ -40,8 +40,7 @@ export const messagesThunks = {
       message,
       from: userId,
       to: id,
-      group: isGroup,
-      outgoing: true
+      group: isGroup
     }
 
     api.messages.create(row)
