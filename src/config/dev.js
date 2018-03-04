@@ -1,4 +1,4 @@
 export default {
   url: 'http://localhost',
-  port: '8080'
+  port: '3030'
 }

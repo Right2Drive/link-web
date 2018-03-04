@@ -13,7 +13,7 @@ function ChatPreview ({ key, date, name, msg }) {
           <span class="time">${relativeStamp(date)}</span>
         </div>
         <div class="bottom">
-          <span class="msg-preview">${msg}</span>
+          <span style="${msg ? '' : 'font-style:italic'}" class="msg-preview">${msg || 'Send your first message!'}</span>
         </div>
       </div>
     </div>`

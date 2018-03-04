@@ -2,37 +2,13 @@
 /*
   username: string,
   name: string,
-  color: string,
+  color: object,
   lastModified: Date,
   createdAt: Date,
+  userId: string
 */
 const initialState = {
-  rows: [
-    {
-      username: 'Right2Drive',
-      name: 'Right2Drive',
-      color: { r: 255, g: 255, b: 255 },
-      lastModified: new Date().toUTCString(),
-      createdAt: new Date().toUTCString(),
-      userId: 'f8adf9s7gd8g7f9sdg'
-    },
-    {
-      username: 'Bea Esguerra',
-      name: 'Bea Esguerra',
-      color: { r: 0, g: 0, b: 0 },
-      lastModified: new Date().toUTCString(),
-      createdAt: new Date().toUTCString(),
-      userId: 'a8sdf8ads7f87adf'
-    },
-    {
-      username: 'James Inglis',
-      name: 'James Inglis',
-      color: '#424242',
-      lastModified: new Date().toUTCString(),
-      createdAt: new Date().toUTCString(),
-      userId: '7dgf89h7gdf98'
-    }
-  ]
+  rows: []
 }
 
 // Action types
@@ -42,7 +18,7 @@ const UPDATE_USER = 'users/update_user'
 
 // Action creators
 export const usersActions = {
-
+  addUsers: (...rows) => ({ type: ADD_USER, rows })
 }
 
 // Thunks
@@ -66,9 +42,9 @@ export const usersThunks = {
 export function usersReducer (state = initialState, action) {
   switch (action.type) {
     case ADD_USER: {
-      const { user } = action
+      const { rows } = action
 
-      return { ...state, rows: [...state.rows, user] }
+      return { ...state, rows: [...state.rows, ...rows] }
     }
 
     case REMOVE_USER: {

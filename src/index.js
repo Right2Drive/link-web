@@ -1,9 +1,9 @@
 import './style/index.less'
-import init from './view'
+import store from './store'
+import initView from './view'
+import initStore from './store/init'
 
-// TODO: Remove
-import './style/chat.less'
-
-window.addEventListener('load', () => {
-  init()
+window.addEventListener('load', async () => {
+  store.dispatch(initStore())
+  initView()
 })
