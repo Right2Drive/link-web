@@ -32,6 +32,10 @@ export const getUserMsgs = R.curry((userId, msgs) => {
 export const groupMsgsByUser = R.curry((userId, messages) => {
   return R.pipe(
     R.filter(R.propEq('group', false)),
+    R.filter(R.anyPass([
+      R.propEq('from', userId),
+      R.propEq('to', userId)
+    ])),
     R.groupBy(R.ifElse(
       R.propEq('from', userId),
       R.prop('to')

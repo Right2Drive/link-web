@@ -1,5 +1,5 @@
 const { src, context, task } = require('fuse-box/sparky')
-const { FuseBox, WebIndexPlugin, LESSPlugin, CSSResourcePlugin, QuantumPlugin, CSSPlugin, EnvPlugin } = require('fuse-box')
+const { FuseBox, WebIndexPlugin, LESSPlugin, CSSResourcePlugin, QuantumPlugin, CSSPlugin, EnvPlugin, BabelPlugin } = require('fuse-box')
 const path = require('path')
 
 task('default', async context => {

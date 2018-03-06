@@ -1,5 +1,7 @@
-// Initial state
-/*
+import { createActions, createReducer, generateActionNames } from '../../utils/apiModules'
+
+/* State Model
+  =============
   username: string,
   name: string,
   color: object,
@@ -7,19 +9,14 @@
   createdAt: Date,
   userId: string
 */
-const initialState = {
-  rows: []
-}
 
-// Action types
-const ADD_USER = 'users/add_user'
-const REMOVE_USER = 'users/remove_user'
-const UPDATE_USER = 'users/update_user'
+const USERS = 'users'
 
 // Action creators
-export const usersActions = {
-  addUsers: (...rows) => ({ type: ADD_USER, rows })
-}
+export const usersActions = createActions(USERS)
+
+// Action names
+export const usersActionNames = generateActionNames(USERS)
 
 // Thunks
 export const usersThunks = {
@@ -33,8 +30,11 @@ export const usersThunks = {
     await api.users.patch(userId, rowPatch)
   },
 
+  /**
+   * @return {Promise<{ userId: string }>}
+   */
   createNewUser: () => async (dispatch, getState, { api }) => {
-
+    return api.users.create({})
   },
 
   changeName: name => async (dispatch, getState, { api }) => {
@@ -48,25 +48,4 @@ export const usersThunks = {
   }
 }
 
-// Reducer
-export function usersReducer (state = initialState, action) {
-  switch (action.type) {
-    case ADD_USER: {
-      const { rows } = action
-
-      return { ...state, rows: [...state.rows, ...rows] }
-    }
-
-    case REMOVE_USER: {
-      throw new Error('not implemented')
-    }
-
-    case UPDATE_USER: {
-      throw new Error('not implemented')
-    }
-
-    default: {
-      return state
-    }
-  }
-}
+export const usersReducer = createReducer(USERS)

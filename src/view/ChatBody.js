@@ -82,15 +82,19 @@ const ChatBody = Object.assign(Component(), {
       }))
     )(users)
 
+    const filterWithMessages = R.filter(R.prop('messages'))
+    const spreadMessages = R.chain(
+      mergedData => R.map(
+        messageData => ({ ...R.omit(['messages'], mergedData), ...messageData })
+      )(mergedData.messages)
+    )
+
     const messagesData = R.pipe(
       R.values,
-      R.filter(R.prop('messages')),
-      R.chain(
-        mergedData => R.map(
-          messageData => ({ ...R.omit(['messages'], mergedData), ...messageData })
-        )(mergedData.messages)
-      ),
+      filterWithMessages,
+      spreadMessages,
       R.sortBy(R.prop('date')),
+      R.reverse,
       sortedData => sortedData.map((v, i, self) => ({ ...v, tail: !self[i + 1] || self[i + 1].from !== v.from })),
       R.map(R.pick(['message', 'date', 'backgroundColor', 'name', 'outgoing', 'tail']))
     )(R.mergeDeepLeft(indexedChatMessages, indexedUsers))

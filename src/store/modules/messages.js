@@ -1,5 +1,7 @@
-// Initial state
-/*
+import { createActions, createReducer, generateActionNames } from '../../utils/apiModules'
+
+/* State Model
+  =============
   from: string,
   to: string,
   group: boolean,
@@ -9,19 +11,14 @@
   createdAt: Date,
   messageId: string
 */
-const initialState = {
-  rows: []
-}
 
-// Action types
-const ADD_MESSAGE = 'messages/add_user'
-const REMOVE_MESSAGE = 'messages/remove_user'
-const UPDATE_MESSAGE = 'messages/update_user'
+const MESSAGES = 'messages'
 
 // Action creators
-export const messagesActions = {
-  addMessages: (...rows) => ({ type: ADD_MESSAGE, rows })
-}
+export const messagesActions = createActions(MESSAGES)
+
+// Action creator names
+export const messagesActionNames = generateActionNames(MESSAGES)
 
 // Thunks
 export const messagesThunks = {
@@ -43,29 +40,9 @@ export const messagesThunks = {
       group: isGroup
     }
 
-    api.messages.create(row)
+    await api.messages.create(row)
   }
 }
 
 // Reducer
-export function messagesReducer (state = initialState, action) {
-  switch (action.type) {
-    case ADD_MESSAGE: {
-      const { rows } = action
-
-      return { ...state, rows: [...state.rows, ...rows] }
-    }
-
-    case REMOVE_MESSAGE: {
-      throw new Error('not implemented')
-    }
-
-    case UPDATE_MESSAGE: {
-      throw new Error('not implemented')
-    }
-
-    default: {
-      return state
-    }
-  }
-}
+export const messagesReducer = createReducer(MESSAGES)
