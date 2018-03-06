@@ -1,4 +1,4 @@
 export default {
-  url: 'http://someurl',
+  url: 'https://link-core.herokuapp.com',
   port: 443
 }
