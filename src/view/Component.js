@@ -1,4 +1,5 @@
 import * as R from 'ramda'
+import * as EventEmitter from 'mitt'
 
 import store from '../store'
 import makeReadonly from '../utils/makeReadonly'
@@ -52,6 +53,7 @@ function extractState (state, modules = []) {
 }
 
 const Component = {
+  emitter: null,
 
   /**
    * TODO:
@@ -59,6 +61,7 @@ const Component = {
    * @param {string[]} stateModules
    */
   initComponent (props, ...stateModules) {
+    this.emitter = EventEmitter()
     this.dispatch = store.dispatch
     this.props = props ? makeReadonly(props) : {}
     this.state = extractState(store.getState(), stateModules)
@@ -71,8 +74,24 @@ const Component = {
     store.subscribe(R.bind(R.partial(listenToStore, [stateModules]), this))
   },
 
+  on (event, fn) {
+    this.emitter.on(event, fn)
+  },
+
+  emit (event, payload) {
+    this.emitter.emit(event, payload)
+  },
+
+  up (event, component) {
+    component.on(event, payload => this.emit(event, payload))
+  },
+
+  down (event, component) {
+    this.on(event, payload => component.emit(event, payload))
+  },
+
   /**
-   * TODO:
+   * TODO: probably doesn't work
    * @param {object} props
    */
   updateProps (props) {

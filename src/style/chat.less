@@ -35,50 +35,53 @@
   > .chat-body {
     width: 100%;
     flex: 1 1 auto;
-    height: auto;
+    height: 100%;
     overflow-x: hidden;
-    overflow-y: initial;
+    overflow-y: auto;
 
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: flex-start;
+    > .inner {
+      display: flex;
+      flex-direction: column-reverse;
+      justify-content: flex-start;
+      min-height: 100%;
 
-    > .msg-container {
-      @defaultColor: #616161;
-      position: relative;
-      background-color: @defaultColor;
-      max-width: 30%;
-      padding: 10px 10px;
-      border-radius: 8px;
-      margin: 0 20px 10px 20px;
-      color: white;
+      > .msg-container {
+        @defaultColor: #616161;
+        position: relative;
+        background-color: @defaultColor;
+        max-width: 30%;
+        padding: 10px 10px;
+        border-radius: 8px;
+        margin: 0 20px 10px 20px;
+        color: white;
 
-      &.tail {
-        @tailSize: 13px;
-      }
+        &.tail {
+          @tailSize: 13px;
+        }
 
-      &.outgoing {
-        align-self: flex-end;
-      }
+        &.outgoing {
+          align-self: flex-end;
+        }
 
-      &.incoming {
-        align-self: flex-start;
-      }
+        &.incoming {
+          align-self: flex-start;
+        }
 
-      > .name {
-        margin: 0 0 6px 0;
-        font-weight: 600;
-        font-size: 15px;
-      }
+        > .name {
+          margin: 0 0 6px 0;
+          font-weight: 600;
+          font-size: 15px;
+        }
 
-      > .msg {
-        margin-right: 10px;
-      }
+        > .msg {
+          margin-right: 10px;
+        }
 
-      > .timestamp {
-        padding-top: 10px;
-        float: right;
-        opacity: 0.7;
+        > .timestamp {
+          padding-top: 10px;
+          float: right;
+          opacity: 0.7;
+        }
       }
     }
   }

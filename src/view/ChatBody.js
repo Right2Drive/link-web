@@ -17,11 +17,26 @@ function findUser (userId, users) {
 }
 
 const ChatBody = Object.assign(Component(), {
-  bodyQuery: null,
+  chatBodyQuery: null,
+  innerQuery: null,
+  chatBodyClass: 'chat-body',
+  innerClass: 'inner',
 
   initChatBody (props) {
     this.initComponent(props, 'chat', 'messages', 'account', 'users')
-    this.bodyQuery = `#${props.chatId}>.chat-body`
+    this.chatBodyQuery = `#${props.chatId}>.${this.chatBodyClass}`
+    this.innerQuery = `${this.chatBodyQuery}>.${this.innerClass}`
+    this.scrollToBottom = R.bind(this.scrollToBottom, this)
+  },
+
+  scrollToBottom () {
+    /** @type {HTMLDivElement} */
+    const body = document.querySelector(this.chatBodyQuery)
+    body.scrollTop = body.scrollHeight
+  },
+
+  didMount () {
+    this.on('scrollDown', this.scrollToBottom)
   },
 
   render () {
@@ -42,7 +57,7 @@ const ChatBody = Object.assign(Component(), {
     } = this.state
 
     /** @type {HTMLElement} */
-    const node = document.querySelector(this.bodyQuery)
+    const node = document.querySelector(this.innerQuery)
 
     if (!id) {
       // Should show empty chat
@@ -104,6 +119,10 @@ const ChatBody = Object.assign(Component(), {
       R.map(R.trim),
       R.join('\n')
     )(messagesData)
+
+    // TODO: Change
+    // Currently scrolls to bottom on every re-render (get's annoying if someone else is sending messages)
+    this.scrollToBottom()
   }
 })
 

@@ -50,7 +50,7 @@ export function createReducer (name) {
           ...state,
           rows: R.map(
             row => {
-              const updateIndex = R.findIndex(R.prop(idProp(name), row))(updates)
+              const updateIndex = R.findIndex(R.propEq(idProp(name), row))(updates)
 
               return updateIndex === -1 ? row : updates[updateIndex]
             }
@@ -65,7 +65,7 @@ export function createReducer (name) {
           ...state,
           rows: R.map(
             row => {
-              const patchIndex = R.findIndex(R.prop(idProp(name), row))(patches)
+              const patchIndex = R.findIndex(R.propEq(idProp(name), row))(patches)
 
               return patchIndex === -1 ? row : R.merge(row, patches[patchIndex])
             }
