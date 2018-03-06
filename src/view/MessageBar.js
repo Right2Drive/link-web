@@ -1,4 +1,5 @@
 import * as R from 'ramda'
+import * as toastr from 'toastr'
 
 import Component from './Component'
 import { usersThunks } from '../store/modules/users'
@@ -52,13 +53,19 @@ const MessageBar = Object.assign(Component(), {
     this.input.value = ''
   },
 
+  rgbToastError () {
+    toastr.error('Invalid RGB format. Expected: /rgb RRRGGGBBB')
+  },
+
   async evokeCommand (input) {
     const [cmd, payload] = R.converge(
       R.pipe(
         // Split cmd and payload
         R.splitAt,
         // Remove the /
-        R.adjust(R.tail, 0)
+        R.adjust(R.tail, 0),
+        // trim whitespace
+        R.map(R.trim)
       ),
       [
         // Index to split at
@@ -70,6 +77,30 @@ const MessageBar = Object.assign(Component(), {
     switch (cmd) {
       case 'nick': {
         await this.dispatch(usersThunks.changeName(payload))
+        break
+      }
+
+      case 'rgb': {
+        if (payload.length !== 9) {
+          this.rgbToastError()
+          break
+        }
+        try {
+          const [r, g, b] = R.pipe(
+            R.splitEvery(3),
+            R.map(Number),
+            R.map(R.when(Number.isNaN, () => { throw new Error('invalid rgb value') }))
+          )(payload)
+          await this.dispatch(usersThunks.changeColor({ r, g, b }))
+        } catch (e) {
+          this.rgbToastError()
+          break
+        }
+        break
+      }
+
+      default: {
+        toastr.error('No such command. Available commands: /rgb RRRGGGBBB, /nick new-nick')
       }
     }
   },

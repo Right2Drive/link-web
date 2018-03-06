@@ -56,16 +56,16 @@ const ChatPreviewList = Object.assign(Component(), {
     /** @type {HTMLElement} */
     const usersNode = document.querySelector(this.usersQuery)
 
+    // TODO: Break this down!
     usersNode.innerHTML = R.pipe(
-      R.map(
-        ({ lastModified, name, message, userId }) => ChatPreview({
-          name,
-          date: lastModified,
-          msg: message,
-          userId,
-        })
-      ),
       R.values,
+      R.map(
+        ({ lastModified: msgLastModified, name, message, userId, createdAt: userCreatedAt }) =>
+          ({ name, date: msgLastModified || userCreatedAt, msg: message, userId })
+      ),
+      R.sortBy(R.prop('date')),
+      R.reverse,
+      R.map(ChatPreview),
       R.map(R.trim),
       R.join('\n')
     )(userData)

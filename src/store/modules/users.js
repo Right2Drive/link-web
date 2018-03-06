@@ -20,11 +20,11 @@ export const usersActionNames = generateActionNames(USERS)
 
 // Thunks
 export const usersThunks = {
-  changeColor: ({ r, g, b }) => async (dispatch, getState, { api }) => {
+  changeColor: color => async (dispatch, getState, { api }) => {
     const { userId } = getState().account
 
     const rowPatch = {
-      color: `rbg(${r}, ${g}, ${b})`
+      color
     }
 
     await api.users.patch(userId, rowPatch)

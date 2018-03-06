@@ -8,7 +8,7 @@ function createInitialState () {
   }
 }
 
-var idProp = name => `${name}Id`
+var idProp = name => `${R.init(name)}Id`
 
 /**
  *
@@ -50,7 +50,8 @@ export function createReducer (name) {
           ...state,
           rows: R.map(
             row => {
-              const updateIndex = R.findIndex(R.propEq(idProp(name), row))(updates)
+              const propName = idProp(name)
+              const updateIndex = R.findIndex(R.propEq(propName, R.prop(propName, row)))(updates)
 
               return updateIndex === -1 ? row : updates[updateIndex]
             }
@@ -65,7 +66,8 @@ export function createReducer (name) {
           ...state,
           rows: R.map(
             row => {
-              const patchIndex = R.findIndex(R.propEq(idProp(name), row))(patches)
+              const propName = idProp(name)
+              const patchIndex = R.findIndex(R.propEq(propName, R.prop(propName, row)))(patches)
 
               return patchIndex === -1 ? row : R.merge(row, patches[patchIndex])
             }
