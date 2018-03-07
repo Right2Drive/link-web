@@ -74,9 +74,10 @@ const ChatBody = Object.assign(Component(), {
         filterForConversation(id, accountUserId)
       ),
       R.map(R.pipe(
-        R.pick(['lastModified', 'from', 'to', 'message', 'messageId']),
+        R.pick(['lastModified', 'from', 'to', 'message', 'messageId', 'color']),
         renameKeys({
-          lastModified: 'date'
+          lastModified: 'date',
+          color: 'backgroundColor'
         }),
         msg => ({ ...msg, outgoing: R.equals(msg.from, accountUserId) }),
       )),
@@ -89,12 +90,8 @@ const ChatBody = Object.assign(Component(), {
     const indexedUsers = R.pipe(
       R.indexBy(R.prop('userId')),
       R.map(R.pick([
-        'name',
-        'color'
-      ])),
-      R.map(renameKeys({
-        color: 'backgroundColor'
-      }))
+        'name'
+      ]))
     )(users)
 
     const filterWithMessages = R.filter(R.prop('messages'))

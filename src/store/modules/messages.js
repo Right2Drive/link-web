@@ -1,9 +1,12 @@
+import * as R from 'ramda'
+
 import { createActions, createReducer, generateActionNames } from '../../utils/apiModules'
 
 /* State Model
   =============
   from: string,
   to: string,
+  color: { r, g, b },
   group: boolean,
   outgoing: boolean,
   message: string,
@@ -30,11 +33,17 @@ export const messagesThunks = {
       chat: {
         isGroup,
         id
+      },
+      users: {
+        rows: users
       }
     } = getState()
 
+    const { color } = R.find(R.propEq('userId', userId))(users)
+
     const row = {
       message,
+      color,
       from: userId,
       to: id,
       group: isGroup
