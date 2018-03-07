@@ -1,0 +1,74 @@
+@import (reference) './rules.less';
+@import (reference) './variables.less';
+
+#drawer {
+  @drawerWidth: 100% * @usersProportion;
+  position: absolute;
+  width: @drawerWidth;
+  background: @primaryDark;
+  left: @drawerWidth * -1;
+  top: 0;
+  bottom: 0;
+  transition: transform 0.6s ease;
+  z-index: @drawerZ;
+  min-width: @minSidebar;
+
+  &.open {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  @media screen and (max-width: @sidebarMinBreakpoint) {
+    width: @minSidebarPercent;
+    left: -@minSidebarPercent;
+    min-width: @minSidebarPercent;
+  }
+
+  @media screen and (min-width: @sidebarMinBreakpoint) and (max-width: @sidebarMaxBreakpoint) {
+    width: @minSidebar;
+    left: -@minSidebar;
+  }
+
+  > .header {
+    background-color: rgb(0, 0, 0);
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    .close-drawer {
+      position: absolute;
+      top: 8px;
+      right: 6px;
+      cursor: pointer;
+    }
+
+    > div {
+      width: 100%;
+    }
+
+    > .top {
+
+      .user-icon {
+        margin-left: 30px;
+        background-color: @primaryLight;
+        height: 80px;
+        width: 80px;
+
+        > span {
+          font-size: 38px;
+        }
+      }
+    }
+
+    > .bottom {
+      .info {
+        margin-left: 30px;
+        color: rgba(255, 255, 255, 0.7);
+
+        .name {
+          font-size: 25px;
+        }
+      }
+    }
+  }
+}
