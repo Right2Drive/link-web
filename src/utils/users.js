@@ -12,10 +12,6 @@ export const indexUsersWithRecentMsg = R.curry((users, messages, activeUserId) =
   )(messages)
 
   const indexedUsers = R.pipe(
-    R.filter(R.pipe(
-      R.propEq('userId', activeUserId),
-      R.not
-    )),
     indexUserById,
     R.map(R.pick(['name', 'username', 'color', 'userId', 'createdAt', 'connected']))
   )(users)

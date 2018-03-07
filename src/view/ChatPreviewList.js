@@ -1,4 +1,5 @@
 import * as R from 'ramda'
+import * as Fuse from 'fuse.js'
 
 import Component from './Component'
 import ChatPreview from './ChatPreview'
@@ -22,7 +23,7 @@ const ChatPreviewList = Object.assign(Component(), {
   activeUser: null,
 
   initChatPreviewList (props) {
-    this.initComponent(props, 'users', 'messages', 'account')
+    this.initComponent(props, 'users', 'messages', 'account', 'interface')
     this.usersQuery = `#${props.sidebarId}>.users`
     this.users = []
     this.messages = []
@@ -48,8 +49,26 @@ const ChatPreviewList = Object.assign(Component(), {
       },
       account: {
         userId: activeUser
+      },
+      interface: {
+        searchValue
       }
     } = this.state
+
+    const usersWithoutCurrent = R.filter(R.pipe(R.propEq('userId', activeUser), R.not))(users)
+
+    const search = searchValue => users => new Fuse(users, {
+      shouldSort: true,
+      threshold: 0.6,
+      location: 0,
+      distance: 100,
+      maxPatternLength: 32,
+      minMatchCharLength: 1,
+      keys: [
+        'name',
+        'msg'
+      ]
+    }).search(searchValue)
 
     const userData = indexUsersWithRecentMsg(users, messages, activeUser)
 
@@ -65,6 +84,7 @@ const ChatPreviewList = Object.assign(Component(), {
       ),
       R.sortBy(R.prop('date')),
       R.reverse,
+      R.when(R.always(searchValue), search(searchValue)),
       R.map(ChatPreview),
       R.map(R.trim),
       R.join('\n')
