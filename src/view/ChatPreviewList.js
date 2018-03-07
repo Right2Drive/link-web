@@ -60,8 +60,8 @@ const ChatPreviewList = Object.assign(Component(), {
     usersNode.innerHTML = R.pipe(
       R.values,
       R.map(
-        ({ lastModified: msgLastModified, name, message, userId, createdAt: userCreatedAt }) =>
-          ({ name, date: msgLastModified || userCreatedAt, msg: message, userId })
+        ({ lastModified: msgLastModified, name, message, userId, createdAt: userCreatedAt, connected }) =>
+          ({ name, date: msgLastModified || userCreatedAt, msg: message, userId, connected })
       ),
       R.sortBy(R.prop('date')),
       R.reverse,

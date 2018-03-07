@@ -31,6 +31,10 @@ const initThunk = () => async (dispatch, getState, { api }) => {
   // Set account user in store
   dispatch(accountActions.setUserId(accountUserId))
 
+  api.socket.emit('handshake', accountUserId)
+
+  window.addEventListener('beforeunload', () => api.socket.disconnect())
+
   const { messages, users } = await init(api)
 
   const processedMessages = R.map(R.pipe(

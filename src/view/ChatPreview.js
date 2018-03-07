@@ -1,7 +1,10 @@
 import Icon from './Icon'
 import { relativeStamp } from '../utils/time'
 
-function ChatPreview ({ date, name, msg, userId }) {
+// TODO: remove
+import '../style/sidebar.less'
+
+function ChatPreview ({ date, name, msg, userId, connected }) {
   return (
     `<div class="user" data-key="${userId}">
       <div class="left">
@@ -14,6 +17,7 @@ function ChatPreview ({ date, name, msg, userId }) {
         </div>
         <div class="bottom">
           <span style="${msg ? '' : 'font-style:italic'}" class="msg-preview">${msg || 'Send your first message!'}</span>
+          <div class="status ${connected ? 'online' : 'offline'}"></div>
         </div>
       </div>
     </div>`

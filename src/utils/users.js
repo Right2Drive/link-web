@@ -17,7 +17,7 @@ export const indexUsersWithRecentMsg = R.curry((users, messages, activeUserId) =
       R.not
     )),
     indexUserById,
-    R.map(R.pick(['name', 'username', 'color', 'userId', 'createdAt']))
+    R.map(R.pick(['name', 'username', 'color', 'userId', 'createdAt', 'connected']))
   )(users)
 
   return R.mergeDeepRight(indexedUsers, recentMsgsByUser)

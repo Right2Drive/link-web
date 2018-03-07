@@ -96,11 +96,17 @@
           padding-right: 10px;
 
           > .name {
+            flex: 1 1 auto;
             font-weight: 500;
             color: rgba(255, 255, 255, 0.8);
+            text-overflow: ellipsis;
+            overflow: hidden;
           }
 
           > .time {
+            text-align: right;
+            flex: 0 0 auto;
+            width: 130px;
             color: rgba(255, 255, 255, 0.3);
           }
         }
@@ -111,8 +117,31 @@
           overflow: hidden;
           color: rgba(255, 255, 255, 0.6);
           padding-right: 10px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
 
           > .msg-preview {
+            flex: 1 1 auto;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+
+          > .status {
+            flex: 0 0 auto;
+            margin-right: 4px;
+            margin-left: 18px;
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+
+            &.offline {
+              background-color: rgba(255, 255, 255, 0.3);
+            }
+
+            &.online {
+              background-color: rgba(255, 255, 255, 0.6);
+            }
           }
         }
       }

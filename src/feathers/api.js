@@ -12,6 +12,7 @@ const socket = io(`${config.url}${typeof config.port !== 'undefined' ? `:${confi
 client.configure(socketio(socket))
 
 export default {
+  socket,
   messages: client.service('messages'),
   users: client.service('users')
   // groups: client.service('groups')
