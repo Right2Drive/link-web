@@ -29,7 +29,11 @@ export const usersThunks = {
       color
     }
 
-    await api.users.patch(userId, rowPatch)
+    try {
+      await api.users.patch(userId, rowPatch)
+    } catch (e) {
+      e.message && toastr.error(e.message)
+    }
   },
 
   /**
