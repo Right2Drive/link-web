@@ -70,7 +70,7 @@ const ChatPreviewList = Object.assign(Component(), {
       ]
     }).search(searchValue)
 
-    const userData = indexUsersWithRecentMsg(users, messages, activeUser)
+    const userData = indexUsersWithRecentMsg(usersWithoutCurrent, messages, activeUser)
 
     /** @type {HTMLElement} */
     const usersNode = document.querySelector(this.usersQuery)
