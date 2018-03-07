@@ -1,3 +1,5 @@
+import * as toastr from 'toastr'
+
 import { createActions, createReducer, generateActionNames } from '../../utils/apiModules'
 
 /* State Model
@@ -43,8 +45,11 @@ export const usersThunks = {
     const rowPatch = {
       name
     }
-
-    await api.users.patch(userId, rowPatch)
+    try {
+      await api.users.patch(userId, rowPatch)
+    } catch (e) {
+      e.message && toastr.error(e.message)
+    }
   }
 }
 
